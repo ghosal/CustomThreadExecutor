@@ -65,13 +65,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        TaskExecutorService taskExecutorService = new TaskExecutorService(Runtime.getRuntime().availableProcessors());
+        TaskExecutorService taskExecutorService = new TaskExecutorService();
 
         TaskGroup group1 = new TaskGroup(UUID.randomUUID());
         TaskGroup group2 = new TaskGroup(UUID.randomUUID());
 
         Task<String> task1 = new Task<>(UUID.randomUUID(), group1, TaskType.READ, () -> {
-            Thread.sleep(500);
+            Thread.sleep(1000);
             return "Task 1 completed";
         });
         Task<String> task2 = new Task<>(UUID.randomUUID(), group1, TaskType.READ, () -> {
@@ -79,16 +79,16 @@ public class Main {
             return "Task 2 completed";
         });
         Task<String> task3 = new Task<>(UUID.randomUUID(), group1, TaskType.READ, () -> {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             return "Task 3 completed";
         });
         Task<String> task4 = new Task<>(UUID.randomUUID(), group2, TaskType.READ, () -> {
-            Thread.sleep(600);
+            Thread.sleep(1000);
             return "Task 4 completed";
         });
 
         Task<String> task5 = new Task<>(UUID.randomUUID(), group2, TaskType.WRITE, () -> {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             return "Task 5 completed";
         });
 
@@ -106,8 +106,7 @@ public class Main {
                 throw new RuntimeException(ex);
             }
         });
-
-        taskExecutorService.shutdown();
+        taskExecutorService.shutdownExecutors();
     }
 
 }
